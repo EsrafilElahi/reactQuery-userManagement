@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import axios from 'axios';
 import { fetchDefaultUsers } from '../api/AllApi';
+import UserItem from '../components/UserItem';
 
 const Home = () => {
   const queryClient = useQueryClient();
@@ -38,15 +39,13 @@ const Home = () => {
   // console.log('users :', users);
 
   if (isLoading) return 'loading...';
-  if (isError) return `Error : ${error.message}`;
 
   return (
-    <div>
+    <div className="">
       <div className="w-full md:w-96 mx-auto mt-8">
-        <form onSubmit={handleSubmit} className='flex flex-col gap-10'>
-
-          <section className='flex justify-center items-center flex-wrap gap-4'>
-            <div className='flex gap-6'>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-10">
+          <section className="flex justify-center items-center flex-wrap gap-4">
+            <div className="flex gap-6">
               <div className="w-1/2">
                 <label htmlFor="name" className="block font-bold mb-2">
                   Name
@@ -76,7 +75,7 @@ const Home = () => {
                 />
               </div>
             </div>
-            <div className='flex gap-6'>
+            <div className="flex gap-6">
               <div className="w-1/2">
                 <label htmlFor="job" className="block font-bold mb-2">
                   Job
@@ -108,17 +107,24 @@ const Home = () => {
             </div>
           </section>
 
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md focus:outline-none hover:bg-blue-600"
-            >
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md focus:outline-none hover:bg-blue-600"
+          >
             Add
-            </button>
+          </button>
         </form>
+      </div>
 
+      <div className="">
+        <div className="flex flex-wrap justify-center items-center  mt-10">
+          {users?.map((user) => (
+            <UserItem key={user.id} user={user} />
+          ))}
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Home
