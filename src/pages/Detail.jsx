@@ -2,7 +2,10 @@ import React from 'react'
 
 const Detail = () => {
   return (
-    <div>Detail</div>
+    <div>
+      <span>get all users from cache : folan user from  users</span>
+      <span>detail</span>
+    </div>
   )
 }
 
