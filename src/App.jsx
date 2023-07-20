@@ -1,11 +1,7 @@
-// eslint-disable-next-line prettier/prettier
-import WithLayout from "components/layout/WithLayout";
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Users from "./pages/Users";
 import Home from "./pages/Home";
-
-
 
 const router = createBrowserRouter([
   {
