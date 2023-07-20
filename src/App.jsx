@@ -11,10 +11,6 @@ const router = createBrowserRouter([
     element: <Home title="Home Users" />,
   },
   {
-    path: "users-detail/:id",
-    element: <Detail title="User Detail" />,
-  },
-  {
     path: "users-edit/:id",
     element: <Edit title="User Edit" />,
   },
