@@ -3,12 +3,16 @@
     {
       "id": 1,
       "name": "lary page",
-      "age": 43
+      "job": "co-founder of twitter",
+      "age": 43,
+      "country": "USA"
     },
     {
       "id": 2,
       "name": "steve bolmer",
-      "age": 53
+      "job": "ceo of microsoft",
+      "age": 53,
+      "country": "USA"
     }
   ]
 }
