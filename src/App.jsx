@@ -2,6 +2,8 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Users from "./pages/Users";
 import Home from "./pages/Home";
+import Detail from './pages/Detail';
+import Edit from './pages/Edit'
 
 const router = createBrowserRouter([
   {
@@ -12,10 +14,14 @@ const router = createBrowserRouter([
     path: "/users",
     element: <Users title="Users" />,
   },
-  // {
-  //   path: "users/:id",
-  //   element: <SerieDetailsLayout title="User Detail" />,
-  // },
+  {
+    path: "users/:id",
+    element: <Detail title="User Detail" />,
+  },
+  {
+    path: "users/:id",
+    element: <Edit title="User Edit" />,
+  },
 ]);
 
 const App = () => {
