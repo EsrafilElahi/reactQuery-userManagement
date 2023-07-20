@@ -13,10 +13,10 @@ const Home = () => {
   useEffect(() => {
     prefetchUser()
   }, []) // add needed deps
-  
 
-  const { isLoading, isError, data, error } = useQuery(['users'])
-  console.log('data :', data);
+
+  const { isLoading, isError, data:users, error } = useQuery(['users'])
+  console.log('users :', users);
 
   if (isLoading) return 'loading...';
   if (isError) return `Error : ${error.message}`;
