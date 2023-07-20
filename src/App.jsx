@@ -8,11 +8,7 @@ import Edit from './pages/Edit'
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home title="Home" />,
-  },
-  {
-    path: "/users",
-    element: <Users title="Users" />,
+    element: <Home title="Home Users" />,
   },
   {
     path: "users/:id",
