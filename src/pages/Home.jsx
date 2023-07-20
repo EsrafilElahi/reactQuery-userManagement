@@ -116,12 +116,10 @@ const Home = () => {
         </form>
       </div>
 
-      <div className="">
-        <div className="flex flex-wrap justify-center items-center  mt-10">
-          {users?.map((user) => (
-            <UserItem key={user.id} user={user} />
-          ))}
-        </div>
+      <div className="flex flex-col justify-center items-center  mt-10">
+        {users?.map((user) => (
+          <UserItem key={user.id} user={user} />
+        ))}
       </div>
     </div>
   );
