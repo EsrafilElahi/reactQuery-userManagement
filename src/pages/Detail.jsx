@@ -5,7 +5,7 @@ import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { BiArrowBack } from "react-icons/bi";
 
 
-const Detail = (props) => {
+const Detail = () => {
   const params = useParams();
   const queryClient = useQueryClient();
   const history = useHistory()
