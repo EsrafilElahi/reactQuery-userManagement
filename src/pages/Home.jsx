@@ -26,32 +26,35 @@ const Home = () => {
   const mutation = useMutation(addUserToServer, {
     onSuccess: async (newUser) => {
       // prefetch single user
-      await queryClient.getQueryData(['users', newUser.data.id], () => fetchSingleUser(newUser.data.id), {
-        enabled: !!newUser.data.id
-      });
+      // await queryClient.getQueryData(['users', newUser.data.id], () => fetchSingleUser(newUser.data.id), {
+      //   enabled: !!newUser.data.id
+      const users = queryClient.getQueryData(['users'])
+      console.log('alll usersssssssssssssssssssssssss :', users)
+      queryClient.invalidateQueries(['users'])
+      // });
     },
     onMutate: async (newUser) => {
       await queryClient.cancelQueries(["users"])
-      const previousUsers = queryClient.getQueryData(["users"], { exact: true })
+      const previousUsers = queryClient.getQueryData(["users"])
       queryClient.setQueryData(['users'], (old) => [...old, newUser])
 
       return { previousUsers }
     },
     onError: (err, newUser, context) => {
-      queryClient.setQueryData(['users'], context.previousUsers, { exact: true })
+      queryClient.setQueryData(['users'], context.previousUsers)
     },
-    onSettled: async () => {
-      await queryClient.invalidateQueries(['users'], { exact: true })
+    onSettled: async (data, err, variables, context) => {
+      queryClient.invalidateQueries(['users'])
     },
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const newUser = { ...formData, id: uuidv4 };
-    
+
     mutation.mutate(newUser);
-    
+
     setFormData({
       name: "",
       age: "",
@@ -61,18 +64,8 @@ const Home = () => {
   };
 
   // HANDLE GET USERS
-  const prefetchUsers = async () => {
-    return await queryClient.prefetchQuery({
-      queryKey: ["users"],
-      queryFn: fetchDefaultUsers,
-    });
-  };
-  useEffect(() => {
-    prefetchUsers();
-  }, []); // add needed deps
-
-  const { isLoading, isError, data: users, error } = useQuery(["users"]);
-  // console.log("users :", users);
+  const { isLoading, isError, data: users, error } = useQuery(["users"], fetchDefaultUsers);
+  console.log("users :", users);
 
   if (isLoading) return "loading...";
 
