@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { BiTrashAlt, BiEditAlt } from "react-icons/bi";
 
 
@@ -10,6 +11,12 @@ const UserItem = (props) => {
   const handleGoToEditPage = (e) => {
     e.stopPropagation()
     navigate(`/users-edit/${id}`)
+  }
+
+  const handleDeleteUser = async (id) => {
+    // delete user
+    const res = axios.delete(`http://localhost:5000/users/${id}`)
+    return res.data
   }
   
   return (

@@ -37,6 +37,7 @@ const Detail = () => {
       navigate("/")
     },
     onMutate: async (newUser) => {
+      console.log(newUser)
 
       await queryClient.cancelQueries(["users", newUser.id])
 
@@ -56,9 +57,10 @@ const Detail = () => {
     onError: (err, newUser, context) => {
       queryClient.setQueryData(['users', context.previousUser.id], context.previousUser)
     },
-    onSettled: async (data) => {
-      if (data) {
-        const userId = data?.data?.id || context?.previousUser?.id;
+    onSettled: async (data, error, variables, context) => {
+      console.log('variable :', variables)
+      if (variables) {
+        const userId = variables?.id || context?.previousUser?.id;
         if (userId) {
           await queryClient.invalidateQueries(['users', userId]);
           await queryClient.invalidateQueries(['users']);
