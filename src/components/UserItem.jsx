@@ -1,9 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const UserItem = (props) => {
-  const { name, age, job, country } = props.user;
+  const { name, age, job, country, id } = props.user;
+  const navigate = useNavigate();
+  
   return (
-    <div className="bg-blue-300 w-[40rem] my-4 p-2 rounded-md">
+    <div
+      className="bg-blue-300 w-[40rem] my-4 p-2 rounded-md"
+      onClick={() => navigate(`/users-detail/${id}`)}
+    >
       <div className="flex">
         <div className="flex flex-[3] flex-wrap gap-4">
           <span className="flex items-center">name : {name}</span>
