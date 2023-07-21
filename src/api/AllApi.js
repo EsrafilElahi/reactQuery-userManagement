@@ -5,8 +5,12 @@ export const fetchDefaultUsers = async () => {
   return res.data;
 }
 
+export const fetchSingleUser = async (id) => {
+  const res = await axios.get(`http://localhost:5000/users/${id}`);
+  return res.data;
+}
+
 export const addUserToServer = async (user) => {
   const res = axios.post("http://localhost:5000/users", user);
-  console.log("user add :", res);
   return res
 }

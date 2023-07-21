@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import axios from 'axios';
-import { fetchDefaultUsers, addUserToServer} from '../api/AllApi';
+import { fetchDefaultUsers, fetchSingleUser, addUserToServer } from '../api/AllApi';
 import UserItem from '../components/UserItem';
 import { v4 as uuidv4 } from "uuid";
 
@@ -15,7 +15,6 @@ const Home = () => {
     job: "",
     country: "",
   });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -23,9 +22,13 @@ const Home = () => {
       [name]: value,
     }));
   };
-  
+
   // HANDLE ADD USERS
   const mutation = useMutation(addUserToServer, {
+    onSuccess: async (newUser) => {
+      // prefetch single user
+      await queryClient.prefetchQuery(['users', newUser.data.id], () => fetchSingleUser(newUser.data.id));
+    },
     onMutate: async (newUser) => {
       // Cancel any outgoing refetches
       // (so they don't overwrite our optimistic update)
@@ -33,7 +36,6 @@ const Home = () => {
 
       // Snapshot the previous value
       const previousUsers = queryClient.getQueryData(["users"])
-      console.log('previousUsers :', previousUsers)
 
       // Optimistically update to the new value
       queryClient.setQueryData(['users'], (old) => [...old, newUser])
@@ -47,8 +49,8 @@ const Home = () => {
       queryClient.setQueryData(['users'], context.previousUsers)
     },
     // Always refetch after error or success:
-    onSettled: () => {
-      queryClient.invalidateQueries(['users'])
+    onSettled: async () => {
+      await queryClient.invalidateQueries(['users'])
     },
   });
 
@@ -60,18 +62,18 @@ const Home = () => {
   };
 
   // HANDLE GET USERS
-  const prefetchUser = async () => {
+  const prefetchUsers = async () => {
     return await queryClient.prefetchQuery({
       queryKey: ["users"],
       queryFn: fetchDefaultUsers,
     });
   };
   useEffect(() => {
-    prefetchUser();
+    prefetchUsers();
   }, []); // add needed deps
 
   const { isLoading, isError, data: users, error } = useQuery(["users"]);
-  console.log("users :", users);
+  // console.log("users :", users);
 
   if (isLoading) return "loading...";
 

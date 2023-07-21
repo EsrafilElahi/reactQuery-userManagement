@@ -15,39 +15,25 @@
       "country": "USA"
     },
     {
-      "name": "salm",
-      "age": "23",
-      "job": "dev",
-      "country": "iran",
+      "name": "saf",
+      "age": "234",
+      "job": "werwer",
+      "country": "rgertert",
       "id": 3
     },
     {
-      "name": "salm2",
-      "age": "232",
-      "job": "dev2",
-      "country": "iran2",
+      "name": "sfsdf",
+      "age": "234",
+      "job": "wdf",
+      "country": "ty",
       "id": 4
     },
     {
-      "name": "er",
-      "age": "345",
-      "job": "sdf",
-      "country": "srtert",
+      "name": "dcv",
+      "age": "34",
+      "job": "ERT",
+      "country": "ERT",
       "id": 5
-    },
-    {
-      "name": "messi",
-      "age": "87",
-      "job": "fjh",
-      "country": "yufg",
-      "id": 6
-    },
-    {
-      "name": "ronaldo",
-      "age": "87",
-      "job": "fjh",
-      "country": "yufg",
-      "id": 7
     }
   ]
 }

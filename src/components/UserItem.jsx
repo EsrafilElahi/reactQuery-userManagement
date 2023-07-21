@@ -7,7 +7,7 @@ const UserItem = (props) => {
   
   return (
     <div
-      className="bg-blue-300 w-[40rem] my-4 p-2 rounded-md"
+      className="bg-blue-300 w-[40rem] my-4 p-2 rounded-md cursor-pointer"
       onClick={() => navigate(`/users-detail/${id}`)}
     >
       <div className="flex">
