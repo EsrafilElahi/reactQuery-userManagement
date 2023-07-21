@@ -55,11 +55,19 @@ const Home = () => {
     },
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
     const newUser = { ...formData, id: uuidv4 };
-
+    
     mutation.mutate(newUser);
+    
+    setFormData({
+      name: "",
+      age: "",
+      job: "",
+      country: "",
+    })
   };
 
   // HANDLE GET USERS

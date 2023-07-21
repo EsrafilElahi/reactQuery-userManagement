@@ -1,6 +1,6 @@
 import React from 'react';
 import { fetchSingleUser } from '../api/AllApi';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { BiArrowBack } from "react-icons/bi";
 
@@ -8,7 +8,7 @@ import { BiArrowBack } from "react-icons/bi";
 const Detail = () => {
   const params = useParams();
   const queryClient = useQueryClient();
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const fetchUserData = async () => {
     // Use queryClient.ensureQueryData to ensure the user data is available in the cache
@@ -26,9 +26,12 @@ const Detail = () => {
 
   return (
     <div className='flex flex-col justify-center items-center gap-5'>
-      <BiArrowBack onClick={() => history.goBack()} className='' />
+      <div className='w-full flex justify-start p-5'>
+        <BiArrowBack onClick={() => navigate(-1)} className='cursor-pointer' />
+      </div>
+      
       <section className='flex flex-col'>
-      <p className='my-10'>Details User</p>
+        <p className='my-10'>Details User</p>
         <span>name : {data?.name}</span>
         <span>job : {data?.job}</span>
         <span>age : {data?.age}</span>
