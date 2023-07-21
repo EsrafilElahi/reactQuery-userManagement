@@ -3,7 +3,8 @@ import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import axios from 'axios';
 import { fetchDefaultUsers } from '../api/AllApi';
 import UserItem from '../components/UserItem';
-import { uuid as uuiv4 } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
+
 
 const Home = () => {
   const queryClient = useQueryClient();
@@ -47,7 +48,7 @@ const Home = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newUser = { ...formData, id: uuiv4 };
+    const newUser = { ...formData, id: uuidv4 };
     mutation.mutate(newUser, {
       onError: () => {
         // rollback the uptimistic update if mutation fails
