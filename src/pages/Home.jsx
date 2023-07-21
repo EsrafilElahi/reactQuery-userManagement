@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import axios from 'axios';
 import { fetchDefaultUsers } from '../api/AllApi';
 import UserItem from '../components/UserItem';
+import { uuid as uuiv4 } from "uuidv4";
 
 const Home = () => {
   const queryClient = useQueryClient();
@@ -14,6 +15,7 @@ const Home = () => {
     country: "",
   });
 
+  // HANDLE ADD USERS
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -22,24 +24,55 @@ const Home = () => {
     }));
   };
 
+  const addUserToServer = async (user) => {
+    const res = axios.post("http://localhost:5000/users", user);
+    console.log("user add :", res);
+    return res
+  }
+
+  const mutation = useMutation(addUserToServer, {
+    onSuccess: (newUser) => {
+      // refetch the data to update the cache, when we want to access this data
+      queryClient.invalidateQueries(["users"]);
+      // update the cache immediately without request api to refetch
+      // queryClient.setQueryData(["users"], (prevUsers) => [
+      //   ...prevUsers,
+      //   newUser,
+      // ]);
+    },
+    onMutate: (newUSer) => {
+      console.log("on mutate :", newUSer);
+    }
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // You can handle form submission here, for example, send the data to the server
-    console.log('Form data submitted:', formData);
+    const newUser = { ...formData, id: uuiv4 };
+    mutation.mutate(newUser, {
+      onError: () => {
+        // rollback the uptimistic update if mutation fails
+        queryClient.invalidateQueries(["users"]);
+      },
+    });
   };
 
+
+
+  // HANDLE GET USERS
   const prefetchUser = async () => {
-    return await queryClient.prefetchQuery({ queryKey: ['users'], queryFn: fetchDefaultUsers })
-  }
+    return await queryClient.prefetchQuery({
+      queryKey: ["users"],
+      queryFn: fetchDefaultUsers,
+    });
+  };
   useEffect(() => {
-    prefetchUser()
-  }, []) // add needed deps
+    prefetchUser();
+  }, []); // add needed deps
 
-
-  const { isLoading, isError, data: users, error } = useQuery(['users'])
+  const { isLoading, isError, data: users, error } = useQuery(["users"]);
   console.log("users :", users);
 
-  if (isLoading) return 'loading...';
+  if (isLoading) return "loading...";
 
   return (
     <div className="">
