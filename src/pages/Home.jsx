@@ -28,10 +28,7 @@ const Home = () => {
       // prefetch single user
       // await queryClient.getQueryData(['users', newUser.data.id], () => fetchSingleUser(newUser.data.id), {
       //   enabled: !!newUser.data.id
-      const users = queryClient.getQueryData(['users'])
-      console.log('alll usersssssssssssssssssssssssss :', users)
       queryClient.invalidateQueries(['users'])
-      // });
     },
     onMutate: async (newUser) => {
       await queryClient.cancelQueries(["users"])
@@ -42,10 +39,7 @@ const Home = () => {
     },
     onError: (err, newUser, context) => {
       queryClient.setQueryData(['users'], context.previousUsers)
-    },
-    onSettled: async (data, err, variables, context) => {
-      queryClient.invalidateQueries(['users'])
-    },
+    }
   });
 
   const handleSubmit = async (e) => {
