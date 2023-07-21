@@ -21,6 +21,7 @@ const Home = () => {
       [name]: value,
     }));
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // You can handle form submission here, for example, send the data to the server
@@ -36,7 +37,7 @@ const Home = () => {
 
 
   const { isLoading, isError, data: users, error } = useQuery(['users'])
-  // console.log('users :', users);
+  console.log("users :", users);
 
   if (isLoading) return 'loading...';
 
