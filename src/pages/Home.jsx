@@ -32,25 +32,37 @@ const Home = () => {
   }
 
   const mutation = useMutation(addUserToServer, {
-    onSuccess: (newUser) => {
-      // refetch the data to update the cache, when we want to access this data
-      queryClient.invalidateQueries(["users"]);
-    }
+    onMutate: async (newUser) => {
+      // Cancel any outgoing refetches
+      // (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries(["users"])
+
+      // Snapshot the previous value
+      const previousUsers = queryClient.getQueryData(["users"])
+      console.log('previousUsers :', previousUsers)
+
+      // Optimistically update to the new value
+      queryClient.setQueryData(['users'], (old) => [...old, newUser])
+
+      // Return a context object with the snapshotted value
+      return { previousUsers }
+    },
+    // If the mutation fails,
+    // use the context returned from onMutate to roll back
+    onError: (err, newTodo, context) => {
+      queryClient.setQueryData(['users'], context.previousUsers)
+    },
+    // Always refetch after error or success:
+    onSettled: () => {
+      queryClient.invalidateQueries(['users'])
+    },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newUser = { ...formData, id: uuidv4 };
 
-    // update the cache immediately without request api to refetch
-    queryClient.setQueryData(["users"], (prevUsers) => [...prevUsers, newUser,]);
-
-    mutation.mutate(newUser, {
-      onError: () => {
-        // rollback the uptimistic update if mutation fails
-        queryClient.invalidateQueries(["users"]);
-      },
-    });
+    mutation.mutate(newUser);
   };
 
 
