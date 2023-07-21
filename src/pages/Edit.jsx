@@ -34,6 +34,7 @@ const Detail = () => {
   const mutation = useMutation(editSingleUser, {
     onSuccess: async (newUser) => {
       // navigate to users list page
+      await queryClient.invalidateQueries(['users']);
       navigate("/")
     },
     onMutate: async (newUser) => {

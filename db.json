@@ -1,32 +1,25 @@
 {
   "users": [
     {
-      "name": "tr",
-      "age": "234",
-      "job": "wer",
-      "country": "wrt",
-      "id": 6
+      "name": "lary page",
+      "age": "44",
+      "job": "co founder of google",
+      "country": "USA",
+      "id": 1
     },
     {
-      "name": "qwe",
-      "age": "234",
-      "job": "wer",
-      "country": "qwr",
-      "id": 11
+      "name": "mark zuckerberg",
+      "age": "45",
+      "job": "founder of meta",
+      "country": "USA",
+      "id": 2
     },
     {
-      "name": "qwe",
-      "age": "234",
-      "job": "wer",
-      "country": "qer",
-      "id": 12
-    },
-    {
-      "name": "qwe",
-      "age": "2",
-      "job": "wer",
-      "country": "qer",
-      "id": 13
+      "name": "bill gates",
+      "age": "65",
+      "job": "founder of microsoft",
+      "country": "USA",
+      "id": 3
     }
   ]
 }
