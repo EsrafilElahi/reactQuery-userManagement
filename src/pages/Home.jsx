@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import axios from 'axios';
-import { fetchDefaultUsers } from '../api/AllApi';
+import { fetchDefaultUsers, addUserToServer} from '../api/AllApi';
 import UserItem from '../components/UserItem';
 import { v4 as uuidv4 } from "uuid";
 
@@ -16,7 +16,6 @@ const Home = () => {
     country: "",
   });
 
-  // HANDLE ADD USERS
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -24,13 +23,8 @@ const Home = () => {
       [name]: value,
     }));
   };
-
-  const addUserToServer = async (user) => {
-    const res = axios.post("http://localhost:5000/users", user);
-    console.log("user add :", res);
-    return res
-  }
-
+  
+  // HANDLE ADD USERS
   const mutation = useMutation(addUserToServer, {
     onMutate: async (newUser) => {
       // Cancel any outgoing refetches
@@ -64,8 +58,6 @@ const Home = () => {
 
     mutation.mutate(newUser);
   };
-
-
 
   // HANDLE GET USERS
   const prefetchUser = async () => {
