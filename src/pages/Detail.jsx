@@ -9,11 +9,13 @@ const Detail = (props) => {
 
   const fetchUserData = async () => {
     // Use queryClient.ensureQueryData to ensure the user data is available in the cache
-    const data = await queryClient.ensureQueryData(['users', params.id], () => fetchSingleUser(params.id));
+    const data = await queryClient.ensureQueryData(['users', params.id], () => fetchSingleUser(params.id), {
+      enabled: !!params.id
+    });
     return data;
   };
 
-    const { data, isLoading, error } = useQuery(['users', params.id], fetchUserData);
+  const { data, isLoading, error } = useQuery(['users', params.id], fetchUserData);
   console.log('singe user :', data)
 
   return (

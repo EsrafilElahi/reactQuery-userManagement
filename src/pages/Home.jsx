@@ -27,7 +27,9 @@ const Home = () => {
   const mutation = useMutation(addUserToServer, {
     onSuccess: async (newUser) => {
       // prefetch single user
-      await queryClient.prefetchQuery(['users', newUser.data.id], () => fetchSingleUser(newUser.data.id));
+      await queryClient.prefetchQuery(['users', newUser.data.id], () => fetchSingleUser(newUser.data.id), {
+        enabled: !!newUser.data.id
+      });
     },
     onMutate: async (newUser) => {
       // Cancel any outgoing refetches
