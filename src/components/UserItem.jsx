@@ -49,7 +49,7 @@ const UserItem = (props) => {
 
   const handleDelete = async (e) => {
     e.stopPropagation();
-    await mutation.mutateAsync(id)
+    mutation.mutate(id)
   }
   
   return (
