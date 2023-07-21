@@ -19,3 +19,8 @@ export const editSingleUser = async (user) => {
   const res = axios.put(`http://localhost:5000/users/${user.id}`, user);
   return res.data
 }
+
+export const deleteUser = async (id) => {
+  const res = axios.delete(`http://localhost:5000/users/${id}`)
+  return res.data
+}

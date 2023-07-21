@@ -32,16 +32,16 @@ const Home = () => {
     },
     onMutate: async (newUser) => {
       await queryClient.cancelQueries(["users"])
-      const previousUsers = queryClient.getQueryData(["users"])
+      const previousUsers = queryClient.getQueryData(["users"], { exact: true })
       queryClient.setQueryData(['users'], (old) => [...old, newUser])
 
       return { previousUsers }
     },
     onError: (err, newUser, context) => {
-      queryClient.setQueryData(['users'], context.previousUsers)
+      queryClient.setQueryData(['users'], context.previousUsers, { exact: true })
     },
     onSettled: async () => {
-      await queryClient.invalidateQueries(['users'])
+      await queryClient.invalidateQueries(['users'], { exact: true })
     },
   });
 

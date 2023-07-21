@@ -42,6 +42,7 @@ const Detail = () => {
       await queryClient.cancelQueries(["users", newUser.id])
 
       const previousUser = queryClient.getQueryData(["users", newUser.id])
+      const previousUsers = queryClient.getQueryData(["users"])
       // uptimistic update [users, userId]
       queryClient.setQueryData(['users', newUser.id], newUser)
       
@@ -52,10 +53,11 @@ const Detail = () => {
       // queryClient.setQueryData(['users', newUser.id], mergeAllUsers)
 
 
-      return { previousUser }
+      return { previousUsers, previousUser }
     },
     onError: (err, newUser, context) => {
       queryClient.setQueryData(['users', context.previousUser.id], context.previousUser)
+      queryClient.setQueryData(['users'], context.previousUsers)
     },
     onSettled: async (data, error, variables, context) => {
       console.log('variable :', variables)
