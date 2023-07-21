@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
-import axios from 'axios';
 import { fetchDefaultUsers, fetchSingleUser, addUserToServer } from '../api/AllApi';
 import UserItem from '../components/UserItem';
 import { v4 as uuidv4 } from "uuid";
