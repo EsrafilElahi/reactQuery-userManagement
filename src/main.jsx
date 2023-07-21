@@ -11,6 +11,9 @@ export const queryClient = new QueryClient({
     queries: {
       staleTime: 20 * (60 * 1000), // 20 mins
       cacheTime: 30 * (60 * 1000), // 30 mins
+      retry: 3, // retry 3 times
+      retryDelay: (retryCount) => Math.min(retryCount * 1000, 3000), // wait 3 seconds between retries
+      refetchOnWindowFocus: false,
     },
   },
 });
