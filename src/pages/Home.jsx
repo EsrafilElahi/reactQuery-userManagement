@@ -25,20 +25,21 @@ const Home = () => {
   // HANDLE ADD USERS
   const mutation = useMutation(addUserToServer, {
     onSuccess: async (newUser) => {
-      // prefetch single user
-      // await queryClient.getQueryData(['users', newUser.data.id], () => fetchSingleUser(newUser.data.id), {
-      //   enabled: !!newUser.data.id
-      queryClient.invalidateQueries(['users'])
+      await queryClient.invalidateQueries(['users'])
     },
     onMutate: async (newUser) => {
       await queryClient.cancelQueries(["users"])
       const previousUsers = queryClient.getQueryData(["users"])
-      queryClient.setQueryData(['users'], (old) => [...old, newUser])
+      console.log('prevs :', previousUsers)
+      queryClient.setQueryData(['users'], [...previousUsers, newUser])
 
       return { previousUsers }
     },
     onError: (err, newUser, context) => {
       queryClient.setQueryData(['users'], context.previousUsers)
+    },
+    onSettled: async () => {
+      await queryClient.invalidateQueries(['users'])
     }
   });
 
@@ -46,7 +47,6 @@ const Home = () => {
     e.preventDefault();
 
     const newUser = { ...formData, id: uuidv4 };
-
     mutation.mutate(newUser);
 
     setFormData({

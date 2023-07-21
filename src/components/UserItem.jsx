@@ -18,39 +18,33 @@ const UserItem = (props) => {
   }
 
 
-  // // HANDLE CHANGE USER
-  // const mutation = useMutation(deleteUser, {
-  //   onSuccess: async () => {
-  //     // navigate to users list page
-  //     // clg list users
-  //     // navigate("/")
-  //   },
-  //   onMutate: async (id) => {
-  //     queryClient.cancelQueries(["users", id])
+  // HANDLE CHANGE USER
+  const mutation = useMutation(deleteUser, {
+    onSuccess: async () => {
+      queryClient.invalidateQueries(['users', variables.id]);
+      queryClient.invalidateQueries(['users']);
+    },
+    onMutate: async (id) => {
+      queryClient.cancelQueries(["users", id])
 
-  //     const previousUsers = queryClient.getQueryData(["users"]);
+      const previousUsers = queryClient.getQueryData(["users"]);
       
-  //     // Optimistically update the data to remove the deleted user from the list
-  //     queryClient.setQueryData(["users"], (oldData) => {
-  //       return oldData.filter((user) => user.id !== id);
-  //     });
+      // Optimistically update the data to remove the deleted user from the list
+      queryClient.setQueryData(["users"], (oldData) => {
+        return oldData.filter((user) => user.id !== id);
+      });
       
-  //     return { previousUsers }
-  //   },
-  //   onError: (err, context) => {
-  //     queryClient.setQueryData(['users'], context.previousUsers)
-  //   },
-  //   onSettled: async (data, error, variables, context) => {
-  //     console.log('vars :', variables)
-  //     queryClient.invalidateQueries(['users', variables.id]);
-  //     queryClient.invalidateQueries(['users']);
-  //   },
-  // });
+      return { previousUsers }
+    },
+    onError: (err, context) => {
+      queryClient.setQueryData(['users'], context.previousUsers)
+    }
+  });
 
-  // const handleDelete = async (e) => {
-  //   e.stopPropagation();
-  //   mutation.mutate(id)
-  // }
+  const handleDelete = async (e) => {
+    e.stopPropagation();
+    mutation.mutate(id)
+  }
   
   return (
     <div
@@ -62,7 +56,7 @@ const UserItem = (props) => {
           <span className="flex items-center">name : {name}</span>
         </div>
         <div className="flex flex-col justify-center items-center flex-1 gap-5">
-          {/* <BiTrashAlt className="cursor-pointer" onClick={(e) => handleDelete(e)} /> */}
+          <BiTrashAlt className="cursor-pointer" onClick={(e) => handleDelete(e)} />
           <BiEditAlt className="cursor-pointer" onClick={(e) => handleGoToEditPage(e)} />
         </div>
       </div>
