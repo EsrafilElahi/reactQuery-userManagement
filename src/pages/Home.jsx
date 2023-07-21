@@ -26,30 +26,20 @@ const Home = () => {
   const mutation = useMutation(addUserToServer, {
     onSuccess: async (newUser) => {
       // prefetch single user
-      await queryClient.prefetchQuery(['users', newUser.data.id], () => fetchSingleUser(newUser.data.id), {
+      await queryClient.getQueryData(['users', newUser.data.id], () => fetchSingleUser(newUser.data.id), {
         enabled: !!newUser.data.id
       });
     },
     onMutate: async (newUser) => {
-      // Cancel any outgoing refetches
-      // (so they don't overwrite our optimistic update)
       await queryClient.cancelQueries(["users"])
-
-      // Snapshot the previous value
       const previousUsers = queryClient.getQueryData(["users"])
-
-      // Optimistically update to the new value
       queryClient.setQueryData(['users'], (old) => [...old, newUser])
 
-      // Return a context object with the snapshotted value
       return { previousUsers }
     },
-    // If the mutation fails,
-    // use the context returned from onMutate to roll back
-    onError: (err, newTodo, context) => {
+    onError: (err, newUser, context) => {
       queryClient.setQueryData(['users'], context.previousUsers)
     },
-    // Always refetch after error or success:
     onSettled: async () => {
       await queryClient.invalidateQueries(['users'])
     },

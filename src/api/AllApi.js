@@ -14,3 +14,8 @@ export const addUserToServer = async (user) => {
   const res = axios.post("http://localhost:5000/users", user);
   return res
 }
+
+export const editSingleUser = async (user) => {
+  const res = axios.put(`http://localhost:5000/users/${user.id}`, user);
+  return res
+}

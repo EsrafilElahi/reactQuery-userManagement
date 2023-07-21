@@ -2,14 +2,14 @@
   "users": [
     {
       "id": 1,
-      "name": "lary page",
+      "name": "lary  page",
       "job": "co-founder of twitter",
       "age": 43,
       "country": "USA"
     },
     {
       "id": 2,
-      "name": "steve bolmer",
+      "name": "steve bolm",
       "job": "ceo of microsoft",
       "age": 53,
       "country": "USA"
@@ -34,6 +34,13 @@
       "job": "ERT",
       "country": "ERT",
       "id": 5
+    },
+    {
+      "name": "sdf",
+      "age": "234",
+      "job": "wrtwe",
+      "country": "wffdf",
+      "id": 6
     }
   ]
 }
