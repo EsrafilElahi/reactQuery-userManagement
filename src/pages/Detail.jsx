@@ -1,7 +1,9 @@
 import React from 'react';
 import { fetchSingleUser } from '../api/AllApi';
 import { useParams, useHistory } from 'react-router-dom';
-import { useQueryClient, useQuery, isError } from '@tanstack/react-query';
+import { useQueryClient, useQuery } from '@tanstack/react-query';
+import { BiArrowBack } from "react-icons/bi";
+
 
 const Detail = (props) => {
   const params = useParams();
@@ -24,7 +26,7 @@ const Detail = (props) => {
 
   return (
     <div className='flex flex-col justify-center items-center gap-5'>
-      <span onClick={() => history.goBack()}>back</span>
+      <BiArrowBack onClick={() => history.goBack()} className='' />
       <section className='flex flex-col'>
       <p className='my-10'>Details User</p>
         <span>name : {data?.name}</span>
