@@ -35,20 +35,16 @@ const Home = () => {
     onSuccess: (newUser) => {
       // refetch the data to update the cache, when we want to access this data
       queryClient.invalidateQueries(["users"]);
-      // update the cache immediately without request api to refetch
-      // queryClient.setQueryData(["users"], (prevUsers) => [
-      //   ...prevUsers,
-      //   newUser,
-      // ]);
-    },
-    onMutate: (newUSer) => {
-      console.log("on mutate :", newUSer);
     }
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newUser = { ...formData, id: uuidv4 };
+
+    // update the cache immediately without request api to refetch
+    queryClient.setQueryData(["users"], (prevUsers) => [...prevUsers, newUser,]);
+
     mutation.mutate(newUser, {
       onError: () => {
         // rollback the uptimistic update if mutation fails
