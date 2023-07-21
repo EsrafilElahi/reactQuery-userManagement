@@ -8,10 +8,10 @@ const Home = () => {
   const queryClient = useQueryClient();
 
   const [formData, setFormData] = useState({
-    name: '',
-    age: '',
-    job: '',
-    country: '',
+    name: "",
+    age: "",
+    job: "",
+    country: "",
   });
 
   const handleChange = (e) => {
